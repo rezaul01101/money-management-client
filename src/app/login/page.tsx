@@ -38,7 +38,12 @@ const Login = () => {
             Forgot password ?
           </Link>
         </div>
-        <FWButton text="Login" handleClick={handleLogin} loading={loading} />
+        <FWButton
+          type={"submit"}
+          text="Login"
+          handleClick={handleLogin}
+          loading={loading}
+        />
         <div className="flex justify-end">
           <div className="flex gap-2">
             <span className="text-sm">{`Don't have and account?`}</span>

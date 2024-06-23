@@ -1,15 +1,12 @@
 "use client";
 
+import { buttonType } from "@/theme/interfaces";
 import { useState } from "react";
 
-interface button {
-  text: string;
-  handleClick?: () => void;
-  loading?: boolean;
-}
-const FWButton = ({ text, handleClick, loading }: button) => {
+const FWButton = ({ text, handleClick, loading, type }: buttonType) => {
   return (
     <button
+      type={type}
       onClick={handleClick}
       className="w-full flex items-center justify-center gap-2 my-4 px-4 py-2 text-black bg-theme-yellow-600 rounded-md hover:bg-theme-yellow-500 focus:outline-none focus:ring-2 focus:ring-theme-yellow-600 focus:ring-opacity-50"
     >
