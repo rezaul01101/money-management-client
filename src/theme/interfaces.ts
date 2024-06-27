@@ -9,3 +9,18 @@ export interface userRegisterType {
   email: string;
   password: string;
 }
+export interface userLoginType {
+  email: string;
+  password: string;
+}
+
+export interface registerFormType {
+  user_name: string;
+  email: string;
+  password: string;
+  verify_password: string;
+}
+export interface loginFormType {
+  email: string;
+  password: string;
+}

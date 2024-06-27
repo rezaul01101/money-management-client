@@ -2,17 +2,13 @@
 import FWButton from "@/components/buttons/FWButton";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import Link from "next/link";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { z } from "zod";
 import { userRegister } from "@/controllers/api";
-interface FormPayload {
-  user_name: string;
-  email: string;
-  password: string;
-  verify_password: string;
-}
+import { registerFormType } from "@/theme/interfaces";
+
 const Register = () => {
   const RegisterValidationSchema = z.object({
     user_name: z.string(),
@@ -20,7 +16,7 @@ const Register = () => {
     password: z.string().min(7),
     verify_password: z.string().min(8),
   });
-
+  const [loading, setLoading] = useState<boolean>(false);
   const [passwordShow, setPasswordShow] = useState(false);
   const [successMessage, setSuccessMessage] = useState(false);
 
@@ -28,7 +24,7 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormPayload>({
+  } = useForm<registerFormType>({
     resolver: zodResolver(RegisterValidationSchema),
   });
 
@@ -36,7 +32,7 @@ const Register = () => {
     setPasswordShow(!passwordShow);
   };
 
-  const handleOnSubmit = async (data: FormPayload) => {
+  const handleOnSubmit = async (data: registerFormType) => {
     const email = data?.email;
     const password = data?.password;
     const name = data?.user_name;
@@ -46,11 +42,14 @@ const Register = () => {
       password: password,
     };
     try {
+      setLoading(true);
       const registerResponse = await userRegister(userData);
       if (registerResponse && registerResponse?.status === 200) {
+        setLoading(false);
         setSuccessMessage(true);
       }
     } catch (errors) {
+      setLoading(false);
       //pending: error message will show on front
       console.log(errors);
     }
@@ -173,7 +172,11 @@ const Register = () => {
                     </p>
                   )}
                 </div>
-                <FWButton text="Create an account" type={"submit"} />
+                <FWButton
+                  loading={loading}
+                  text="Create an account"
+                  type={"submit"}
+                />
               </form>
               <div className="flex justify-end">
                 <div className="flex gap-2">
